@@ -10,7 +10,7 @@ import (
 )
 
 func InitRouter() *gin.Engine {
-	r := gin.Default()
+	r := gin.New()
 	r.Use(cors.New(cors.Config{
 		// AllowAllOrigins: true,
 		AllowHeaders:     []string{"Authorization", "Access-Control-Allow-Origin", "content-type"},
@@ -25,13 +25,20 @@ func InitRouter() *gin.Engine {
 	r.Use(gin.Recovery())
 	gin.SetMode(conf.RUN_MODE)
 	var taskView v1.TaskViews
+	var projectView v1.ProjectView
 	goodsRouters := r.Group("/api/v1/task")
-	// goodsRouters.Use(middleware.MID_JWT())
 	{
-		goodsRouters.GET("", taskView.GetTask)
+		goodsRouters.GET("/:ID", projectView.GetProjectDetail)
 		goodsRouters.POST("", taskView.CreateTask)
-	//	goodsRouters.PUT("", taskViews.)
-	//	goodsRouters.DELETE("", taskViews.)
+		//	goodsRouters.PUT("", taskViews.)
+		//	goodsRouters.DELETE("", taskViews.)
+	}
+	projectRouter := r.Group("/api/v1/project")
+	{
+		projectRouter.GET("", projectView.GetAllProject)
+		projectRouter.POST("", projectView.CreateProject)
+		//	goodsRouters.PUT("", taskViews.)
+		//	goodsRouters.DELETE("", taskViews.)
 	}
 
 	return r
