@@ -45,7 +45,7 @@ func init() {
 	db.DB().SetMaxIdleConns(10)
 	db.DB().SetMaxOpenConns(100)
 	// db.Model(&Taskitem{}).AddForeignKey("goods_id", "Bitsu_Goods(id)", "CASCADE", "CASCADE")
-	db.AutoMigrate(&Task{}, &Taskitem{}, &Project{})
+	db.AutoMigrate(&Task{}, &Project{})
 }
 
 func CLoseDB() {
