@@ -10,16 +10,17 @@ import (
 type Project struct {
 	gorm.Model
 
-	Title    string
+	Prefix   string
 	Deadline time.Time
+	EndNum   int
 	Tasklist []*Task
 }
 
-func (p *Project) GetProjectDetail(c *gin.Context) (projectList []Project, err error) {
+func (p *Project) GetProjectDetail(c *gin.Context) (projectList Project, err error) {
 	ID := c.Param("ID")
 	// if err := db.Model(&p).Preload("Tasklist.Taskitems").Preload("Tasklist").Find(&projectList).Error; err != nil {
 	if err := db.Model(&p).Preload("Tasklist").Where("ID = ?", ID).First(&projectList).Error; err != nil {
-		return nil, err
+		return Project{}, nil
 	}
 	return
 }
@@ -32,19 +33,20 @@ func (p *Project) GetAllProject() (projectList []Project, err error) {
 
 }
 
-func (p *Project) CreateProject(c *gin.Context) (err error) {
+func (p *Project) CreateProject(c *gin.Context) (ID uint, err error) {
 	if err := c.BindJSON(&p); err != nil {
-		return err
+		return 0, nil
 	}
 	if err := db.Create(&p).Error; err != nil {
-		return err
+		return 0, nil
 	}
+	ID = p.ID
 	return
 }
 
 func (p *Project) DeleteProject(c *gin.Context) (err error) {
-	ID := c.Query(("ID"))
-	if err := db.Unscoped().Model(&p).Where("ID = ?", ID).Delete(&p).Error; err != nil {
+	ID := c.Param(("ID"))
+	if err := db.Preload("Tasklist").Unscoped().Model(&p).Where("ID = ?", ID).Delete(&p).Error; err != nil {
 		return err
 	}
 	return

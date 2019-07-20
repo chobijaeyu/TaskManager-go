@@ -44,7 +44,7 @@ func init() {
 	db.SingularTable(true)
 	db.DB().SetMaxIdleConns(10)
 	db.DB().SetMaxOpenConns(100)
-	// db.Model(&Taskitem{}).AddForeignKey("goods_id", "Bitsu_Goods(id)", "CASCADE", "CASCADE")
+	db.Model(&Task{}).AddForeignKey("project_id", "Card_project(id)", "CASCADE", "CASCADE")
 	db.AutoMigrate(&Task{}, &Project{})
 }
 

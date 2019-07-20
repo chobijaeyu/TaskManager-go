@@ -23,7 +23,7 @@ const (
 	DB_HOST         = "127.0.0.1"
 	DB_PORT         = "5432"
 	DB_NAME         = "Card"
-	DB_TABLE_PREFIX = "Card_"
+	DB_TABLE_PREFIX = "card_"
 
 	//CORS
 

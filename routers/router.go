@@ -1,7 +1,6 @@
 package routers
 
 import (
-	"CardTaskGo/conf"
 	v1 "CardTaskGo/views/v1"
 	"time"
 
@@ -23,22 +22,22 @@ func InitRouter() *gin.Engine {
 	}))
 	r.Use(gin.Logger())
 	r.Use(gin.Recovery())
-	gin.SetMode(conf.RUN_MODE)
 	var taskView v1.TaskViews
 	var projectView v1.ProjectView
 	goodsRouters := r.Group("/api/v1/task")
 	{
-		goodsRouters.GET("/:ID", projectView.GetProjectDetail)
+		goodsRouters.GET("/:ID", taskView.GetTask)
 		goodsRouters.POST("", taskView.CreateTask)
 		//	goodsRouters.PUT("", taskViews.)
 		//	goodsRouters.DELETE("", taskViews.)
 	}
 	projectRouter := r.Group("/api/v1/project")
 	{
+		projectRouter.GET("/:ID", projectView.GetProjectDetail)
 		projectRouter.GET("", projectView.GetAllProject)
 		projectRouter.POST("", projectView.CreateProject)
 		//	goodsRouters.PUT("", taskViews.)
-		//	goodsRouters.DELETE("", taskViews.)
+		projectRouter.DELETE("/:ID", projectView.DeleteProject)
 	}
 
 	return r
