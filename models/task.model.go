@@ -1,6 +1,8 @@
 package models
 
 import (
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 )
@@ -34,6 +36,15 @@ func (t *Task) CreateTaskList(c *gin.Context) (err error) {
 func (t *Task) DeteleTaskList(c *gin.Context) (err error) {
 	ID := c.Query("ID")
 	if err := db.Unscoped().Model(&t).Where("ID = ?", ID).Delete(&t).Error; err != nil {
+		return err
+	}
+	return
+}
+
+func (t *Task) UpdateTaskItem(c *gin.Context) (err error) {
+	ID := c.PostForm("ID")
+	Status, _ := strconv.Atoi(c.PostForm("Status"))
+	if err := db.Model(&t).Where("ID = ?", ID).Update("Status", Status).Error; err != nil {
 		return err
 	}
 	return

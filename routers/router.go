@@ -22,13 +22,15 @@ func InitRouter() *gin.Engine {
 	}))
 	r.Use(gin.Logger())
 	r.Use(gin.Recovery())
-	var taskView v1.TaskViews
-	var projectView v1.ProjectView
+	var (
+		taskView    v1.TaskViews
+		projectView v1.ProjectView
+	)
 	goodsRouters := r.Group("/api/v1/task")
 	{
 		goodsRouters.GET("/:ID", taskView.GetTask)
 		goodsRouters.POST("", taskView.CreateTask)
-		//	goodsRouters.PUT("", taskViews.)
+		goodsRouters.PUT("", taskView.UpdateTask)
 		//	goodsRouters.DELETE("", taskViews.)
 	}
 	projectRouter := r.Group("/api/v1/project")

@@ -49,3 +49,22 @@ func (t *TaskViews) CreateTask(c *gin.Context) {
 	})
 
 }
+
+func (t *TaskViews) UpdateTask(c *gin.Context) {
+	s := models.Task{}
+	if err := s.UpdateTaskItem(c); err != nil {
+		statusCode := e.ERROR
+		c.JSON(statusCode, gin.H{
+			"code": statusCode,
+			"msg":  e.GetMsg(statusCode),
+			"err":  err.Error(),
+		})
+		return
+	}
+	statusCode := e.SUCCESS
+	c.JSON(statusCode, gin.H{
+		"code": statusCode,
+		"msg":  e.GetMsg(statusCode),
+	})
+
+}
