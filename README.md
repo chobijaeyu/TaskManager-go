@@ -4,12 +4,15 @@
 
 ## How to use
 
-Run `go run` for a dev server.
 
 Database running on postgres by default.
 check conf for setting detail
 >setting.go
 
+Run `go run` for a dev server.
+
+
+![go run](/cardTaskGo.gif)
 
 ## To do
 - [x] database models
