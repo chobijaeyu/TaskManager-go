@@ -68,3 +68,7 @@ func (t *TaskViews) UpdateTask(c *gin.Context) {
 	})
 
 }
+
+func (t *TaskViews) test(c *gin.Context){
+    
+}
