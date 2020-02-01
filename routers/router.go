@@ -1,6 +1,7 @@
 package routers
 
 import (
+	"CardTaskGo/pkg/e"
 	v1 "CardTaskGo/views/v1"
 	"time"
 
@@ -26,6 +27,10 @@ func InitRouter() *gin.Engine {
 		taskView    v1.TaskViews
 		projectView v1.ProjectView
 	)
+	hub := e.NewHub()
+	r.GET("/ws", func(c *gin.Context) {
+		e.ServeWs(hub, c.Writer, c.Request)
+	})
 	goodsRouters := r.Group("/api/v1/task")
 	{
 		goodsRouters.GET("/:ID", taskView.GetTask)
